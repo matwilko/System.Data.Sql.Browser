@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +42,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyVersionInfo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlInstance.cs" />
+    <Compile Include="SqlServerBrowser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AssemblyVersionInfo.tt">
