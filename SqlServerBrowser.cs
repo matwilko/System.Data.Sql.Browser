@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace System.Data.Sql.Browser
 {
@@ -72,6 +73,30 @@ namespace System.Data.Sql.Browser
                 }
             }
         }
+
+        public static SqlInstance GetInstance(IPAddress address, string instanceName)
+        {
+            using (var client = Client)
+            {
+                var datagram = Messages.ClientUnicastInstance(instanceName);
+                var endpoint = new IPEndPoint(address, SqlServerBrowserPort);
+                client.Send(datagram, datagram.Length, endpoint);
+
+                try
+                {
+                    return ProcessIncomingInstanceData(client, 1).Single();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    if (ex.Message != "Sequence contains no elements")
+                    {
+                        throw;
+                    }
+
+                    throw new InvalidOperationException("Instance does not exist on target server");
+                }
+            }
+        }
         
         private static IEnumerable<SqlInstance> ProcessIncomingInstanceData(UdpClient client, int expectedClients)
         {
@@ -84,8 +109,13 @@ namespace System.Data.Sql.Browser
                 {
                     bytes = client.Receive(ref endPoint);
                 }
-                catch (Exception)
+                catch (SocketException ex)
                 {
+                    if (ex.SocketErrorCode != SocketError.TimedOut)
+                    {
+                        throw;
+                    }
+
                     yield break;
                 }
 
