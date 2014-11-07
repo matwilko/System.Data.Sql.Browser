@@ -57,7 +57,7 @@ namespace System.Data.Sql.Browser
             returnBytes[1] = 0x01;
             returnBytes[returnBytes.Length - 1] = 0x00;
 
-            Array.Copy(instanceNameBytes, 0, returnBytes, 1, instanceNameBytes.Length);
+            Array.Copy(instanceNameBytes, 0, returnBytes, 2, instanceNameBytes.Length);
 
             return returnBytes;
         }

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace System.Data.Sql.Browser
 {
@@ -95,6 +94,35 @@ namespace System.Data.Sql.Browser
 
                     throw new InvalidOperationException("Instance does not exist on target server");
                 }
+            }
+        }
+
+        public static int GetDacPort(IPAddress address, string instanceName)
+        {
+            using (var client = Client)
+            {
+                var datagram = Messages.ClientUnicastDac(instanceName);
+                var endpoint = new IPEndPoint(address, SqlServerBrowserPort);
+
+                client.Connect(endpoint);
+                client.Send(datagram, datagram.Length);
+
+                IPEndPoint remoteEndpoint = null;
+                try
+                {
+                    var response = client.Receive(ref remoteEndpoint);
+                    return Messages.ServerResponseDac(response);
+                }
+                catch (SocketException ex)
+                {
+                    if (ex.SocketErrorCode != SocketError.TimedOut)
+                    {
+                        throw;
+                    }
+
+                    throw new InvalidOperationException("Instance does not exist on target server, or the DAC is not available.");
+                }
+                
             }
         }
         
