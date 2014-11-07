@@ -79,6 +79,7 @@ namespace System.Data.Sql.Browser
             {
                 var datagram = Messages.ClientUnicastInstance(instanceName);
                 var endpoint = new IPEndPoint(address, SqlServerBrowserPort);
+                client.Connect(endpoint);
                 client.Send(datagram, datagram.Length, endpoint);
 
                 try
