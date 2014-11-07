@@ -4,6 +4,9 @@ using System.Globalization;
 
 namespace System.Data.Sql
 {
+    /// <summary>
+    /// Provides information about a specific SQL Server instance
+    /// </summary>
     public sealed class SqlInstance
     {
         private readonly string serverName;
@@ -106,6 +109,8 @@ namespace System.Data.Sql
                         tcpPort = int.Parse(strings[i + 1], NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
                         break;
                         
+                    // TODO: VIA_INFO
+
                     case "rpc":
                         rpcName = strings[i + 1];
                         break;
@@ -119,6 +124,7 @@ namespace System.Data.Sql
                         break;
 
                     case "bv":
+                        // TODO: BV_INFO
                         i += 4;
                         break;
                 }

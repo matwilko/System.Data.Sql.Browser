@@ -6,6 +6,9 @@ using System.Net.Sockets;
 
 namespace System.Data.Sql
 {
+    /// <summary>
+    /// Provides methods that query SQL Browser on remote hosts to obtain instance or DAC information
+    /// </summary>
     public static class Browser
     {
         private const int SqlServerBrowserPort = 1434;
