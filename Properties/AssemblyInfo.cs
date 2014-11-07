@@ -6,8 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("System.Data.Sql.Browser")]
-[assembly: AssemblyDescription("Lightweight and flexible interface to SQL Server Browser services")]
+[assembly: AssemblyDescription("Lightweight interface to SQL Server Browser services")]
 [assembly: AssemblyCopyright("Copyright © Matthew Wilkinson 2014")]
+[assembly: AssemblyCompany("Matthew Wilkinson")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
