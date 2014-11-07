@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace System.Data.Sql.Browser
+namespace System.Data.Sql
 {
     public sealed class SqlInstance
     {

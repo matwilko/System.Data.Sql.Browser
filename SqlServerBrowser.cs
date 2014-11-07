@@ -3,9 +3,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 
-namespace System.Data.Sql.Browser
+namespace System.Data.Sql
 {
-    public static class SqlServerBrowser
+    public static class Browser
     {
         private const int SqlServerBrowserPort = 1434;
         private const int Timeout = 3000;

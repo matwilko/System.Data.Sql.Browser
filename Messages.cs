@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace System.Data.Sql.Browser
+namespace System.Data.Sql
 {
     internal static class Messages
     {

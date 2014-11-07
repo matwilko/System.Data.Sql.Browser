@@ -7,7 +7,7 @@
     <ProjectGuid>{40A35CDC-4AA1-46F1-8B21-2C62B0E27A15}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.Data.Sql.Browser</RootNamespace>
+    <RootNamespace>System.Data.Sql</RootNamespace>
     <AssemblyName>System.Data.Sql.Browser</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
