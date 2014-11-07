@@ -73,6 +73,13 @@ namespace System.Data.Sql
             }
         }
 
+        /// <summary>
+        /// Get information about a specific instance
+        /// </summary>
+        /// <param name="address">The host on which the instance is running</param>
+        /// <param name="instanceName">The name of the instance</param>
+        /// <returns>The SQL Server instance information</returns>
+        /// <exception cref="InvalidOperationException">Thrown if instance does not exist on target server</exception>
         public static SqlInstance GetInstance(IPAddress address, string instanceName)
         {
             using (var client = Client)
@@ -98,6 +105,14 @@ namespace System.Data.Sql
             }
         }
 
+        /// <summary>
+        /// Obtains the Dedicated Administrator Connection port number for an instance
+        /// </summary>
+        /// <param name="address">The host on which the instance is running</param>
+        /// <param name="instanceName">The name of the instance</param>
+        /// <returns>The port number of the DAC</returns>
+        /// <exception cref="InvalidOperationException">Thrown if instance does not exist on target server, or the DAC for that instance is not available</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public static int GetDacPort(IPAddress address, string instanceName)
         {
             using (var client = Client)
