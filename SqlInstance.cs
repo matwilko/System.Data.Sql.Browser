@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace System.Data.Sql
 {
@@ -52,11 +54,13 @@ namespace System.Data.Sql
         /// <summary>
         /// The SPX service name of the server.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Spx")]
         public string SpxName => spxName;
 
         /// <summary>
         /// The AppleTalk service object name.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Adsp")]
         public string AdspName => adspName;
 
         /// <summary>
@@ -99,7 +103,7 @@ namespace System.Data.Sql
                         break;
 
                     case "tcp":
-                        tcpPort = int.Parse(strings[i + 1]);
+                        tcpPort = int.Parse(strings[i + 1], NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
                         break;
                         
                     case "rpc":

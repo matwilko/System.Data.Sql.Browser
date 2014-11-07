@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -10,13 +11,7 @@ namespace System.Data.Sql
         private const int SqlServerBrowserPort = 1434;
         private const int Timeout = 3000;
 
-        private static UdpClient Client => new UdpClient
-        {
-            DontFragment = true,
-            ExclusiveAddressUse = true,
-            MulticastLoopback = false,
-            Client = {ReceiveTimeout = Timeout}
-        };
+
 
         /// <summary>
         /// Searches for all available instances in the subnet.
@@ -26,6 +21,7 @@ namespace System.Data.Sql
         /// Additionally, instance information will be yielded as it is available from other hosts piecemeal, the enumerable will not wait on all hosts to return information and timeout.
         /// </remarks>
         /// <returns>A delayed execution enumerable that yields SQL Server instance information from the local network.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Operation requires long delay waiting for network timeout")]
         public static IEnumerable<SqlInstance> GetInstances()
         {
             var client = Client;
@@ -52,14 +48,14 @@ namespace System.Data.Sql
         /// The returned enumerable uses delayed execution, that is that the query is only sent when enumeration begins (and is sent everytime enumeration occurs!)
         /// Additionally, instance information will be yielded as it is available from other hosts piecemeal, the enumerable will not wait on all hosts to return information and timeout.
         /// </remarks>
-        /// <param name="ipAddresses">The remote hosts to query for instances.</param>
+        /// <param name="addresses">The remote hosts to query for instances.</param>
         /// <returns>A delayed execution enumerable that yields SQL Server instance information from the local network.</returns>
-        public static IEnumerable<SqlInstance> GetInstancesOn(params IPAddress[] ipAddresses)
+        public static IEnumerable<SqlInstance> GetInstancesOn(params IPAddress[] addresses)
         {
             using (var client = Client)
             {
                 var datagram = Messages.ClientUnicastEx();
-                foreach (var address in ipAddresses)
+                foreach (var address in addresses)
                 {
                     var endpoint = new IPEndPoint(address, SqlServerBrowserPort);
                     client.Send(datagram, datagram.Length, endpoint);
@@ -173,5 +169,14 @@ namespace System.Data.Sql
                 }
             }
         }
+
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "All consumers obtain client in using block")]
+        private static UdpClient Client => new UdpClient
+        {
+            DontFragment = true,
+            ExclusiveAddressUse = true,
+            MulticastLoopback = false,
+            Client = {ReceiveTimeout = Timeout}
+        };
     }
 }
