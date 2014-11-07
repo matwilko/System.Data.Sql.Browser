@@ -24,7 +24,7 @@
 		var version = new Version(tag.Annotation.Name);
 		version = new Version(
 			version.Major,
-			version.Minor + 1,
+			version.Minor,
 			depth,
 			(int) ((DateTime.Today - new DateTime(2014, 11, 2)).TotalDays)
 		);
