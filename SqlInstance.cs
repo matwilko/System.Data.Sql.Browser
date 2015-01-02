@@ -25,62 +25,52 @@ namespace System.Data.Sql
     /// </summary>
     public sealed class SqlInstance
     {
-        private readonly string serverName;
-        private readonly string instanceName;
-        private readonly bool isClustered;
-        private readonly Version version;
-        private readonly string namedPipe;
-        private readonly int? tcpPort;
-        private readonly string rpcName;
-        private readonly string spxName;
-        private readonly string adspName;
-
         /// <summary>
         /// The name of the server.
         /// </summary>
-        public string ServerName => serverName;
+        public string ServerName { get; }
 
         /// <summary>
         /// The name of the server instance.
         /// </summary>
-        public string InstanceName => instanceName;
+        public string InstanceName { get; }
 
         /// <summary>
         /// Whether or not the server is part of a cluster.
         /// </summary>
-        public bool IsClustered => isClustered;
+        public bool IsClustered { get; }
 
         /// <summary>
         /// The version of the server instance.
         /// </summary>
-        public Version Version => version;
+        public Version Version { get; }
 
         /// <summary>
         /// The pipe name that the server can be reached on, if any.
         /// </summary>
-        public string NamedPipe => namedPipe;
+        public string NamedPipe { get; }
 
         /// <summary>
         /// The TCP port that the server can be reached on, if any.
         /// </summary>
-        public int? TcpPort => tcpPort;
-        
+        public int? TcpPort { get; }
+
         /// <summary>
         /// The name of the computer to connect to for RPC-based connections.
         /// </summary>
-        public string RpcName => rpcName;
+        public string RpcName { get; }
 
         /// <summary>
         /// The SPX service name of the server.
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Spx")]
-        public string SpxName => spxName;
+        public string SpxName { get; }
 
         /// <summary>
         /// The AppleTalk service object name.
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Adsp")]
-        public string AdspName => adspName;
+        public string AdspName { get; }
 
         /// <summary>
         /// The human readable version of the instance.
@@ -102,41 +92,41 @@ namespace System.Data.Sql
                 switch (strings[i])
                 {
                     case "ServerName":
-                        serverName = strings[i + 1];
+                        ServerName = strings[i + 1];
                         break;
 
                     case "InstanceName":
-                        instanceName = strings[i + 1];
+                        InstanceName = strings[i + 1];
                         break;
 
                     case "IsClustered":
-                        isClustered = strings[i + 1] == "Yes";
+                        IsClustered = strings[i + 1] == "Yes";
                         break;
 
                     case "Version":
-                        version = Version.Parse(strings[i + 1]);
+                        Version = Version.Parse(strings[i + 1]);
                         break;
 
                     case "np":
-                        namedPipe = strings[i + 1];
+                        NamedPipe = strings[i + 1];
                         break;
 
                     case "tcp":
-                        tcpPort = int.Parse(strings[i + 1], NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
+                        TcpPort = int.Parse(strings[i + 1], NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
                         break;
                         
                     // TODO: VIA_INFO
 
                     case "rpc":
-                        rpcName = strings[i + 1];
+                        RpcName = strings[i + 1];
                         break;
 
                     case "spx":
-                        spxName = strings[i + 1];
+                        SpxName = strings[i + 1];
                         break;
 
                     case "adsp":
-                        adspName = strings[i + 1];
+                        AdspName = strings[i + 1];
                         break;
 
                     case "bv":
