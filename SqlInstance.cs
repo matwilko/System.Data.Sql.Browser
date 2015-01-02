@@ -75,7 +75,8 @@ namespace System.Data.Sql
         /// <summary>
         /// The Banyan VINES information for the server instance
         /// </summary>
-        public BanyanVinesInfo BvInfo { get; }
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Bv")]
+        public BanyanVinesInfo BVInfo { get; }
 
         /// <summary>
         /// The Virtual Interface Architecture configuration for the server instance
@@ -94,6 +95,7 @@ namespace System.Data.Sql
             return new SqlInstance(str);
         }
 
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Cyclo-complexity is high, but method itself is simple enough to read and understand")]
         private SqlInstance(string str)
         {
             var strings = str.Split(';');
@@ -101,7 +103,7 @@ namespace System.Data.Sql
             {
                 if (i + 1 > strings.Length)
                 {
-                    throw new FormatException(string.Format("Last parameter ({0}) from instance has value truncated", strings[i]));
+                    throw new FormatException("Last parameter (" + strings[i] + ") from instance has value truncated");
                 }
 
                 switch (strings[i])
@@ -147,22 +149,23 @@ namespace System.Data.Sql
                         break;
 
                     case "bv":
-                        BvInfo = ProcessBanyanVines(strings, ref i);
+                        BVInfo = ProcessBanyanVines(strings, ref i);
                         break;
                 }
             }
         }
 
-        private ViaInfo ProcessVia(string viaString)
+        private static ViaInfo ProcessVia(string viaString)
         {
             var values = viaString.Split(',', ':');
             var netbios = values[0];
             var nic = values[1];
-            var port = int.Parse(values[2]);
+            var port = int.Parse(values[2], NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
 
             return new ViaInfo(netbios, nic, port);
         }
 
+        [SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "bv")]
         private static BanyanVinesInfo ProcessBanyanVines(string[] strings, ref int i)
         {
             // Check all parts are actually present before end of array

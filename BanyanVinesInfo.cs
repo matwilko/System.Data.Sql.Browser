@@ -1,5 +1,8 @@
 ﻿namespace System.Data.Sql
 {
+    /// <summary>
+    /// Banyan VINES information for a SQL Server Instance
+    /// </summary>
     public sealed class BanyanVinesInfo
     {
         /// <summary>

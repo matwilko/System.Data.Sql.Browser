@@ -1,5 +1,8 @@
 ﻿namespace System.Data.Sql
 {
+    /// <summary>
+    /// Banyan VINES parameter information for a SQL Server instance
+    /// </summary>
     public sealed class BanyanVinesParameters
     {
         /// <summary>
@@ -15,13 +18,13 @@
         /// <summary>
         /// The Banyan VINES organization name
         /// </summary>
-        public string Organisation { get; }
+        public string Organization { get; }
 
-        internal BanyanVinesParameters(string item, string group, string organisation)
+        internal BanyanVinesParameters(string item, string group, string organization)
         {
             Item = item;
             Group = group;
-            Organisation = organisation;
+            Organization = organization;
         }
     }
 }
