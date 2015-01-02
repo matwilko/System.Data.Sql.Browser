@@ -48,9 +48,8 @@ namespace System.Data.Sql
 
             var returnBytes = new byte[2 + instanceNameBytes.Length];
             returnBytes[0] = 0x04;
+            instanceNameBytes.CopyTo(returnBytes, 1);
             returnBytes[returnBytes.Length - 1] = 0x00;
-
-            Array.Copy(instanceNameBytes, 0, returnBytes, 1, instanceNameBytes.Length);
 
             return returnBytes;
         }
@@ -67,9 +66,8 @@ namespace System.Data.Sql
             var returnBytes = new byte[3 + instanceNameBytes.Length];
             returnBytes[0] = 0x0F;
             returnBytes[1] = 0x01;
+            instanceNameBytes.CopyTo(returnBytes, 2);
             returnBytes[returnBytes.Length - 1] = 0x00;
-
-            Array.Copy(instanceNameBytes, 0, returnBytes, 2, instanceNameBytes.Length);
 
             return returnBytes;
         }
