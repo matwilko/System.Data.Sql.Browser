@@ -174,13 +174,8 @@ namespace System.Data.Sql
                 {
                     return ProcessIncomingInstanceData(client, 1).Single();
                 }
-                catch (InvalidOperationException ex)
+                catch (InvalidOperationException ex) if (ex.Message == "Sequence contains no elements")
                 {
-                    if (ex.Message != "Sequence contains no elements")
-                    {
-                        throw;
-                    }
-
                     throw new InvalidOperationException("Instance does not exist on target server");
                 }
             }
@@ -225,16 +220,10 @@ namespace System.Data.Sql
                     var response = client.Receive(ref remoteEndpoint);
                     return Messages.ServerResponseDac(response);
                 }
-                catch (SocketException ex)
+                catch (SocketException ex) if (ex.SocketErrorCode == SocketError.TimedOut)
                 {
-                    if (ex.SocketErrorCode != SocketError.TimedOut)
-                    {
-                        throw;
-                    }
-
                     throw new InvalidOperationException("Instance does not exist on target server, or the DAC is not available.");
                 }
-                
             }
         }
 
@@ -262,16 +251,11 @@ namespace System.Data.Sql
                 {
                     bytes = client.Receive(ref endPoint);
                 }
-                catch (SocketException ex)
+                catch (SocketException ex) if (ex.SocketErrorCode != SocketError.TimedOut)
                 {
-                    if (ex.SocketErrorCode != SocketError.TimedOut)
-                    {
-                        throw;
-                    }
-
                     yield break;
                 }
-
+                
                 var instanceData = Messages.ServerResponse(bytes)
                     .Split(new[] {";;"}, StringSplitOptions.RemoveEmptyEntries)
                     .Select(SqlInstance.Parse);
