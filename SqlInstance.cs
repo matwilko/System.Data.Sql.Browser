@@ -89,6 +89,11 @@ namespace System.Data.Sql
             var strings = str.Split(';');
             for (int i = 0; i < strings.Length; i += 2)
             {
+                if (i + 1 > strings.Length)
+                {
+                    throw new FormatException(string.Format("Last parameter ({0}) from instance has value truncated", strings[i]));
+                }
+
                 switch (strings[i])
                 {
                     case "ServerName":
