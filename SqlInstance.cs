@@ -73,6 +73,11 @@ namespace System.Data.Sql
         public string AdspName { get; }
 
         /// <summary>
+        /// The Banyan VINES information for the server instance
+        /// </summary>
+        public BanyanVinesInfo BvInfo { get; }
+
+        /// <summary>
         /// The human readable version of the instance.
         /// </summary>
         public string SqlServerVersion => SqlServerVersions.ContainsKey(Version)
@@ -135,11 +140,28 @@ namespace System.Data.Sql
                         break;
 
                     case "bv":
-                        // TODO: BV_INFO
-                        i += 4;
+                        BvInfo = ProcessBanyanVines(strings, ref i);
                         break;
                 }
             }
+        }
+
+        private static BanyanVinesInfo ProcessBanyanVines(string[] strings, ref int i)
+        {
+            // Check all parts are actually present before end of array
+            if (i + 5 > strings.Length - 1)
+            {
+                throw new FormatException("Last parameter (bv) from instance has values truncated");
+            }
+
+            var item = strings[i + 1];
+            var group = strings[i + 2];
+            var paramItem = strings[i + 3];
+            var paramGroup = strings[i + 4];
+            var paramOrg = strings[i + 5];
+            
+            i += 4;
+            return new BanyanVinesInfo(item, group, paramItem, paramGroup, paramOrg);
         }
 
         private static readonly IDictionary<Version, string> SqlServerVersions = new Dictionary<Version, string>
