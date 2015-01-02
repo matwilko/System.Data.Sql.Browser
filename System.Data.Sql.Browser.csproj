@@ -58,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlInstance.cs" />
     <Compile Include="SqlServerBrowser.cs" />
+    <Compile Include="ViaInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AssemblyVersionInfo.tt">

@@ -78,6 +78,11 @@ namespace System.Data.Sql
         public BanyanVinesInfo BvInfo { get; }
 
         /// <summary>
+        /// The Virtual Interface Architecture configuration for the server instance
+        /// </summary>
+        public ViaInfo ViaInfo { get; }
+
+        /// <summary>
         /// The human readable version of the instance.
         /// </summary>
         public string SqlServerVersion => SqlServerVersions.ContainsKey(Version)
@@ -124,8 +129,10 @@ namespace System.Data.Sql
                     case "tcp":
                         TcpPort = int.Parse(strings[i + 1], NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
                         break;
-                        
-                    // TODO: VIA_INFO
+
+                    case "via":
+                        ViaInfo = ProcessVia(strings[i+1]);
+                        break;
 
                     case "rpc":
                         RpcName = strings[i + 1];
@@ -144,6 +151,16 @@ namespace System.Data.Sql
                         break;
                 }
             }
+        }
+
+        private ViaInfo ProcessVia(string viaString)
+        {
+            var values = viaString.Split(',', ':');
+            var netbios = values[0];
+            var nic = values[1];
+            var port = int.Parse(values[2]);
+
+            return new ViaInfo(netbios, nic, port);
         }
 
         private static BanyanVinesInfo ProcessBanyanVines(string[] strings, ref int i)
