@@ -105,7 +105,7 @@ namespace System.Data.Sql
                 throw new InvalidDataException("Invalid SVR_RESP (DAC) message");
             }
 
-            return (response[4] << 8) + response[3];
+            return (response[5] << 8) + response[4];
         }
 
         private static byte[] GetInstanceNameBytes(string instanceName)
